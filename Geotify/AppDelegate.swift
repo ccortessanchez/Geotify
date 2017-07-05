@@ -21,14 +21,37 @@
  */
 
 import UIKit
+import CoreLocation
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
   
   var window: UIWindow?
+  let locationManager = CLLocationManager()
   
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+    locationManager.delegate = self
+    locationManager.requestAlwaysAuthorization()
     return true
   }
   
+  func handleEvent(forRegion region: CLRegion!) {
+    print("Geofence triggered!")
+  }
+  
+}
+
+// MARK: LocationManager delegate
+extension AppDelegate: CLLocationManagerDelegate {
+  func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+    if region is CLCircularRegion {
+      handleEvent(forRegion: region)
+    }
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
+    if region is CLCircularRegion {
+      handleEvent(forRegion: region)
+    }
+  }
 }

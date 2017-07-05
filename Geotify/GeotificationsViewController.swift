@@ -178,6 +178,14 @@ extension GeotificationsViewController: CLLocationManagerDelegate {
   func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
     mapView.showsUserLocation = (status == .authorizedAlways)
   }
+  
+  func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+    print("Monitoring failed for region with identifier \(region?.identifier)")
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    print("Location Manager failed with error: \(error)")
+  }
 }
 
 // MARK: - MapView Delegate
